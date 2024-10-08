@@ -1,16 +1,6 @@
-import { useState } from "react";
 import Table from "./components/Table";
 
 function App() {
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Thursday",
-    "Friday",
-    "Satureday",
-  ];
-
   const table = [
     {
       id: 1,
