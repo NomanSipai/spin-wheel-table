@@ -374,7 +374,7 @@ const Table = () => {
             onClick={() =>
               setAddRowVisible((prev) => ({ ...prev, [day]: !prev[day] }))
             }
-            className="bg-green-600 block ms-auto text-white px-3 py-1 rounded hover:bg-green-700 transition mt-2 flex items-center"
+            className="bg-green-600  ms-auto text-white px-3 py-1 rounded hover:bg-green-700 transition mt-2 flex items-center"
           >
             {addRowVisible[day] ? <>Hide Add Row</> : <>Add Row</>}
           </button>
