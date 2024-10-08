@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Data from "../DATA.json";
+import Data from "../DATA.json"; // Ensure your DATA.json is structured correctly
 import toast from "react-hot-toast";
 import {
-  AiOutlinePlus,
   AiOutlineDelete,
   AiOutlineEdit,
   AiOutlineSave,
@@ -28,7 +27,8 @@ const Table = () => {
   };
 
   const handleInputChange = (e, id, field) => {
-    const newValue = e.target.value;
+    const newValue =
+      field === "showInWheel" ? e.target.checked : e.target.value;
     setProducts((prev) =>
       prev.map((product) =>
         product.id === id ? { ...product, [field]: newValue } : product
@@ -54,6 +54,7 @@ const Table = () => {
     credit: "",
     freeCall: "True",
     rewardExpired: "",
+    showInWheel: false,
   });
 
   const handleNewProductChange = (field, value) => {
@@ -80,6 +81,7 @@ const Table = () => {
       credit: "",
       freeCall: "True",
       rewardExpired: "",
+      showInWheel: false,
     });
     setAddRowVisible((prev) => ({ ...prev, [day]: false }));
   };
@@ -111,7 +113,7 @@ const Table = () => {
         <select
           value={newDay}
           onChange={(e) => setNewDay(e.target.value)}
-          className="border rounded px-4 py-1 mr-2" // Reduced padding
+          className="border rounded px-4 py-1 mr-2"
         >
           <option value="">Select a Day</option>
           {[
@@ -130,7 +132,7 @@ const Table = () => {
         </select>
         <button
           onClick={handleAddDay}
-          className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition" // Reduced padding
+          className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
         >
           Add Day
         </button>
@@ -267,117 +269,141 @@ const Table = () => {
                         `${product.rewardExpired} Hour`
                       )}
                     </td>
-                    <td className="px-4 py-3 flex gap-2">
+                    <td className="px-4 py-3 flex space-x-2">
                       {editingId === product.id ? (
                         <button
                           onClick={handleSaveClick}
-                          className="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition flex items-center"
+                          className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition"
                         >
-                          <AiOutlineSave className="h-5 w-5" />
+                          <AiOutlineSave />
                         </button>
                       ) : (
                         <button
                           onClick={() => handleEditClick(product.id)}
-                          className="bg-yellow-600 text-white px-2 py-1 rounded hover:bg-yellow-700 transition flex items-center"
+                          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition"
                         >
-                          <AiOutlineEdit className="h-5 w-5" />
+                          <AiOutlineEdit />
                         </button>
                       )}
                       <button
                         onClick={() => handleDeleteRow(product.id)}
-                        className="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition flex items-center"
+                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition"
                       >
-                        <AiOutlineDelete className="h-5 w-5" />
+                        <AiOutlineDelete />
                       </button>
                     </td>
                   </tr>
                 ))}
+
+              {addRowVisible[day] ? (
+                <tr className="hover:bg-gray-100">
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      value={newProduct.users}
+                      onChange={(e) =>
+                        handleNewProductChange("users", e.target.value)
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  </td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="text"
+                      value={newProduct.product_name}
+                      onChange={(e) =>
+                        handleNewProductChange("product_name", e.target.value)
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  </td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      value={newProduct.discount}
+                      onChange={(e) =>
+                        handleNewProductChange("discount", e.target.value)
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  </td>
+                  <td className="px-4 py-3">
+                    <select
+                      value={newProduct.discountType}
+                      onChange={(e) =>
+                        handleNewProductChange("discountType", e.target.value)
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    >
+                      <option value="Flat Discount">Flat Discount</option>
+                      <option value="Upto Discount">Upto Discount</option>
+                    </select>
+                  </td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      value={newProduct.credit}
+                      onChange={(e) =>
+                        handleNewProductChange("credit", e.target.value)
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  </td>
+                  <td className="px-4 py-3">
+                    <select
+                      value={newProduct.freeCall}
+                      onChange={(e) =>
+                        handleNewProductChange("freeCall", e.target.value)
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    >
+                      <option value="True">True</option>
+                      <option value="False">False</option>
+                    </select>
+                  </td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="text"
+                      value={newProduct.rewardExpired}
+                      onChange={(e) =>
+                        handleNewProductChange("rewardExpired", e.target.value)
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  </td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => handleSubmitNewProduct(day)}
+                      className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition"
+                    >
+                      <AiOutlineSave />
+                    </button>
+                    <button
+                      onClick={() =>
+                        setAddRowVisible((prev) => ({ ...prev, [day]: false }))
+                      }
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition ml-2"
+                    >
+                      <AiOutlineClose />
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                <tr>
+                  <td colSpan="8" className="px-4 py-3">
+                    <button
+                      onClick={() =>
+                        setAddRowVisible((prev) => ({ ...prev, [day]: true }))
+                      }
+                      className="bg-blue-500 ms-auto block text-white px-2 py-1 rounded hover:bg-blue-600 transition"
+                    >
+                      Add Row
+                    </button>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
-
-          {addRowVisible[day] && (
-            <div className="flex items-center mb-4 mt-2">
-              <input
-                type="number"
-                value={newProduct.users}
-                onChange={(e) =>
-                  handleNewProductChange("users", e.target.value)
-                }
-                placeholder="Distributed Users"
-                className="border rounded px-2 py-1 mr-2"
-              />
-              <input
-                type="text"
-                value={newProduct.product_name}
-                onChange={(e) =>
-                  handleNewProductChange("product_name", e.target.value)
-                }
-                placeholder="Product Name"
-                className="border rounded px-2 py-1 mr-2"
-              />
-              <input
-                type="number"
-                value={newProduct.discount}
-                onChange={(e) =>
-                  handleNewProductChange("discount", e.target.value)
-                }
-                placeholder="Discount (%)"
-                className="border rounded px-2 py-1 mr-2"
-              />
-              <select
-                value={newProduct.discountType}
-                onChange={(e) =>
-                  handleNewProductChange("discountType", e.target.value)
-                }
-                className="border rounded px-2 py-1 mr-2"
-              >
-                <option value="Flat Discount">Flat Discount</option>
-                <option value="Upto Discount">Upto Discount</option>
-              </select>
-              <input
-                type="number"
-                value={newProduct.credit}
-                onChange={(e) =>
-                  handleNewProductChange("credit", e.target.value)
-                }
-                placeholder="Credit"
-                className="border rounded px-2 py-1 mr-2"
-              />
-              <select
-                value={newProduct.freeCall}
-                onChange={(e) =>
-                  handleNewProductChange("freeCall", e.target.value)
-                }
-                className="border rounded px-2 py-1 mr-2"
-              >
-                <option value="True">True</option>
-                <option value="False">False</option>
-              </select>
-              <input
-                type="text"
-                value={newProduct.rewardExpired}
-                onChange={(e) =>
-                  handleNewProductChange("rewardExpired", e.target.value)
-                }
-                placeholder="Reward Expired Time"
-                className="border rounded px-2 py-1 mr-2"
-              />
-              <button
-                onClick={() => handleSubmitNewProduct(day)}
-                className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition flex items-center"
-              >
-                Add Row
-              </button>
-            </div>
-          )}
-          <button
-            onClick={() =>
-              setAddRowVisible((prev) => ({ ...prev, [day]: !prev[day] }))
-            }
-            className="bg-green-600  ms-auto text-white px-3 py-1 rounded hover:bg-green-700 transition mt-2 flex items-center"
-          >
-            {addRowVisible[day] ? <>Hide Add Row</> : <>Add Row</>}
-          </button>
         </div>
       ))}
     </div>
