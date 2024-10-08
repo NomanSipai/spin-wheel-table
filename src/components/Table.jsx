@@ -101,7 +101,7 @@ const Table = () => {
 
   return (
     <div className="relative overflow-x-auto shadow-lg sm:rounded-lg p-5 bg-gray-50">
-      <div className="mb-4 flex items-center space-x-2">
+      <div className="mb-4 mt-4 flex items-center space-x-2">
         <select
           value={newDay}
           onChange={(e) => setNewDay(e.target.value)}
